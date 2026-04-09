@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "rahuljangra/ci-cd-app"
+    }
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/RahulJangra79/cicd-project.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                dir('app') {
+                    bat 'docker build -t $IMAGE_NAME .'
+                }
+            }
+        }
+
+        stage('Push to DockerHub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                    sh 'docker login -u $USER -p $PASS'
+                }
+                bat 'docker push $IMAGE_NAME'
+            }
+        }
+
+        stage('Deploy to EC2') {
+            steps {
+                sshagent(['ec2-key']) {
+                    bat """
+                    ssh -o StrictHostKeyChecking=no ubuntu@EC2_IP ^
+                    docker pull %IMAGE_NAME% ^&^& docker run -d -p 3000:3000 %IMAGE_NAME%
+                    """
+                }
+            }
+        }
+    }
+}
