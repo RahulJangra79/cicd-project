@@ -35,12 +35,10 @@ pipeline {
 
         stage('Deploy to EC2') {
             steps {
-                sshagent(['ec2-key']) {
-                    bat """
-                    ssh -o StrictHostKeyChecking=no ubuntu@EC2_IP ^
-                    docker pull %IMAGE_NAME% ^&^& docker run -d -p 3000:3000 %IMAGE_NAME%
-                    """
-                }
+                bat '''
+                ssh -i C:\Users\rjang\Downloads\ci-cd-devops-project\cicd-project.pem ubuntu@43.204.235.175
+                "docker pull rahuljangra/ci-cd-app && docker run -d -p 3000:3000 rahuljangra/ci-cd-app"
+                '''
             }
         }
     }
