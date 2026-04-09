@@ -36,8 +36,8 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 bat '''
-                ssh -i C:\\Users\\rjang\\Downloads\\ci-cd-devops-project\\cicd-project.pem ubuntu@43.204.235.175
-                "docker pull rahuljangra/ci-cd-app && docker run -d -p 3000:3000 rahuljangra/ci-cd-app"
+                ssh -i C:\\Users\\rjang\\Downloads\\ci-cd-devops-project\\cicd-project.pem ubuntu@43.204.235.175 ^
+                "docker pull rahuljangra/ci-cd-app && docker stop app || true && docker rm app || true && docker run -d -p 3000:3000 --name app rahuljangra/ci-cd-app"
                 '''
             }
         }
