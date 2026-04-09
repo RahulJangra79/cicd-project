@@ -37,6 +37,9 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-key', keyFileVariable: 'KEY')]) {
                     bat """
+                    icacls %KEY% /inheritance:r
+                    icacls %KEY% /grant:r %USERNAME%:R
+
                     ssh -o StrictHostKeyChecking=no -i %KEY% ubuntu@43.204.235.175 ^
                     "docker pull rahuljangra/ci-cd-app && ^
                     docker rm -f app || true && ^
