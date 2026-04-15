@@ -41,7 +41,7 @@ pipeline {
                     icacls %KEY% /remove "Users"
                     icacls %KEY% /grant:r SYSTEM:R
 
-                    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i %KEY% ubuntu@3.108.252.178 "docker pull rahuljangra/ci-cd-app && docker rm -f app || true && docker run -d -p 3000:3000 --name app rahuljangra/ci-cd-app"                    """
+                    ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i %KEY% ubuntu@13.203.203.161 "docker pull rahuljangra/ci-cd-app && docker rm -f app || true && docker run -d -p 3000:3000 --name app rahuljangra/ci-cd-app"                    """
                 }
             }
         }
