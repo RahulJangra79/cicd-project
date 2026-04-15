@@ -148,7 +148,7 @@ app.get("/", (req, res) => {
         <div class="badge">DevOps Mini Project</div>
 
         <h1>
-          🚀 <span class="highlight">CI/CD Pipeline</span> with Docker, Jenkins,
+          🚀 <span class="highlight">CI/CD Pipeline</span> qwerty with Docker, Jenkins,
           Terraform & Ansible
         </h1>
 
